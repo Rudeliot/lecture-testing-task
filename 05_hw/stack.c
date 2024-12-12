@@ -1,10 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "stack.h"
 
 Node* createNode(int data) {
     Node* newNode = (Node*)malloc(sizeof(Node));
+    if(newNode == NULL){
+        perror("Failed to allocate memory for node");
+        exit(EXIT_FAILURE);
+    }
     newNode->data = data;
     newNode->next = NULL;
     return newNode;
@@ -21,6 +26,7 @@ void destroyStack(Stack* stack) {
         current = current->next;
 	    free(tmp);
     }
+    stack->top = NULL;
 }
 
 void push(Stack* stack, int data) {
@@ -30,22 +36,33 @@ void push(Stack* stack, int data) {
 }
 
 void pop(Stack* stack) {
+    if(stack->top == NULL){
+        return; // Если стек пустой, ничего не делаем.
+    }
     Node* temp = stack->top;
     stack->top = stack->top->next;
+    free(temp);
 }
 
 Node* searchByValue(Stack* stack, int value) {
     Node* current = stack->top;
+    if (current == NULL){
+        return NULL;
+    }
     while (current != NULL) {
         if (current->data == value) {
             return current;
         }
+        current = current->next;
     }
     return NULL;
 }
 
 Node* searchByIndex(Stack* stack, int index) {
     Node* current = stack->top;
+    if (current == NULL){
+        return NULL;
+    }
     int count = 0;
     while (current != NULL) {
         if (count == index) {
@@ -62,7 +79,7 @@ Node* getTop(Stack* stack) {
 }
 
 void traverseStack(Stack* stack) {
-    Node* current = stack->top;
+     Node* current = stack->top;
     printf("Stack elements: ");
     while (current != NULL) {
         printf("%d ", current->data);
@@ -72,7 +89,5 @@ void traverseStack(Stack* stack) {
 }
 
 bool isEmpty(Stack* stack) {
-    free(stack->top);
     return stack->top == NULL;
 }
-

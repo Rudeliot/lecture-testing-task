@@ -30,7 +30,6 @@ int main() {
         printf("Top element: %d\n", topElement->data);
     }
 
+     destroyStack(&stack);
     return 0;
 }
-
-
