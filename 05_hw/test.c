@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include "stack.h"
-
+#include "benchmark.h"
 
 
 void print_error(const char* test_name, const char* message) {
@@ -156,6 +156,9 @@ int main() {
     test_traverse_stack();
     test_destroy_stack();
 
+    // Вызов функций для проведения бенчмарков
+    benchmark_push();
+    benchmark_pop();
 
     return 0;
 }
